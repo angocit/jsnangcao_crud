@@ -45,10 +45,27 @@ const renderProduct = async()=>{
             <td>${value.name}</td>
             <td>${value.cat_id}</td>
             <td>${value.price}</td>
-            <td><a class="btn btn-primary">Sửa</a> <a class="btn btn-danger">Xóa</a></td>
+            <td><a href="/client/edit-product.html?id=${value.id}" class="btn btn-primary">Sửa</a> <a class="btn btn-danger" onclick = "delProduct('${value.id}')">Xóa</a></td>
         `;
         // Đổ tr và tbody
-        tbody.appendChild(tr);
+        tbody.appendChild(tr);        
     });
+    // console.log(location.search);
+}
+// Viết hàm xóa sản phẩm
+const  delProduct=(pid)=>{
+    // Để xóa thì chúng ta gọi API json server với phương thức delete.
+    fetch(`http://localhost:3000/products/${pid}`,{method:'DELETE'});
+    // Xóa xong thì chạy lại hàm reder
+    renderProduct();
 }
 renderProduct();
+
+
+// Có 2 cách để sửa sản phẩm.
+//  C1: Sửa bằng cách đổ dữ liệu vào 1 form ngay trên file html 
+    //    - Ưu điểm: Tiện, không cần phải tạo file mới.
+    //    Nhược điểm: Thao tác nhiều + xử lý css
+//  C2: Làm 1 file html riêng để sửa và cập nhật
+        //  - Ưu điểm: dễ làm.
+        //  nhược: phải tạo thêm file nữa để xử lý.
