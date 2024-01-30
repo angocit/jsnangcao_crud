@@ -1,0 +1,36 @@
+{
+  "products": [
+    {
+      "id": "1",
+      "name": "Tên sản phẩm",
+      "image": "images/abc.jpg",
+      "description": "Mô tả sp",
+      "price": 10000,
+      "cate_id": "1"
+    },
+    {
+      "id": "3",
+      "name": "Tên sản phẩm 3",
+      "image": "images/abc3.jpg",
+      "description": "Mô tả sp3",
+      "price": 10000,
+      "cate_id": "1"
+    },
+    {
+      "id": "1de5",
+      "name": "sdfdsf",
+      "image": "sdfds",
+      "cat_id": "sdfdsf",
+      "description": "dssdf",
+      "price": "3423"
+    },
+    {
+      "id": "b587",
+      "name": "3242432",
+      "image": "https://static-cse.canva.com/blob/1167222/banner.jpg",
+      "cat_id": "2",
+      "description": "sdfadsfsaf",
+      "price": "34534534"
+    }
+  ]
+}
