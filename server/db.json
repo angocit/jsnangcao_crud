@@ -7,6 +7,22 @@
       "description": "dsfadsfasdf",
       "price": "100000",
       "id": "5ef3"
+    },
+    {
+      "name": "Sửa sản phẩm 3",
+      "image": "https://vending-cdn.kootoro.com/torov-cms/upload/image/1669369974824-c%C3%A1c%20lo%E1%BA%A1i%20banner%20qu%E1%BA%A3ng%20c%C3%A1o.jpg",
+      "cat_id": "1",
+      "price": "100000",
+      "description": "dsfdsfds",
+      "id": "420a"
+    },
+    {
+      "id": "cc6f",
+      "name": "sản phẩm test js nâng cao",
+      "image": "https://product.hstatic.net/1000391653/product/daj354_31128cc44baf4313997e93e46e0b93d8.jpg",
+      "cat_id": "2",
+      "price": "32423423423432",
+      "description": "dsfadsfasdf"
     }
   ]
 }

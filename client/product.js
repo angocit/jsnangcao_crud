@@ -1,71 +1,71 @@
-const addProduct=async ()=>{
-    event.preventDefault(); // Ngăn trình duyệt chuyển hướng
-    // Lấy dữ liệu từ ô input.
-    let name = document.getElementById("tensp").value;
-    let image = document.getElementById("anhsp").value;
-    let cat_id = document.getElementById("danhmuc").value;
-    let price = document.getElementById("gia").value;
-    let description = document.getElementById("mota").value;
-
-    // Sau khi gán giá trị xong thì in ra thử xem đúng chưa.
-    // console.log(name,image,price,description,cat_id);
-
-    //Kiểm tra lấy thành công thì đổ dữ liệu vào database.
-    // sử dụng fetch để gửi dữ liệu qua phương thức post lên api json-server
-    // fetch trả về promise nên chúng ta sẽ sử dụng async/await để xử lý/
-    await fetch('http://localhost:3000/products',{
-        method:'POST',
-        body: JSON.stringify({name:name,image:image,cat_id:cat_id,description:description,price:price})
+const addProduct =()=>{
+    event.preventDefault();
+    // console.log(`Submitted Product`);
+    // lấy dữ lieuejd dược nhập từ form
+    // const tensp = document.querySelector('input[name="tensp"]');
+    const tensp = document.getElementById('tensp').value;
+    const anhsp = document.getElementById('anhsp').value;
+    const danhmuc = document.getElementById('danhmuc').value;
+    const gia = document.getElementById('gia').value;
+    const mota = document.getElementById('mota').value;
+    // -------------
+    // Đổ dữ liệu vào database sử dụng fetch
+    fetch(`http://localhost:3000/products`,{
+        method: 'POST',
+        body: JSON.stringify({
+            name:tensp,
+            image:anhsp,
+            cat_id:danhmuc,
+            price:gia,
+            description:mota
+        })
     });
-    // Thêm thành công.
-    // console.log(response);
-    // sau khi thêm thành công thì load lại dữ liệu
-    renderProduct();
+    RenderProduct();
 }
-// Viêt hàm hiển thị
-const renderProduct = async()=>{
-    // Để lấy được dữ liệu => Call API bằng fetch với phương thúc GET
-    let response = await fetch('http://localhost:3000/products'); // trả về promise=> sử dụng async/await để xử lý
-    let product = await response.json(); // 
-    console.log(product);
-    // console.log(product);
-    // Có dữ liệu rồi thì đổ vào vị trí tbody
-    // - truy cập đến vị trí tbody
+const RenderProduct = async()=>{
+    // Để render được thì truy cập API lấy dữ liệu.
+    const response = await fetch(`http://localhost:3000/products`);
+    const products = await response.json();
+    // ----------------------------------------------
+    // sau khi lấy được dữ liệu thì truy cập vị trí cần đổ dữ liệu
     const tbody = document.querySelector('tbody');
-    // Chuyển tbody về dữ liệu trống nếu không mỗi lần render nó sẽ đổ thêm dữ liệu vào=> trùng nhau.
-    tbody.innerHTML='';
-    // - Duyệt mảng
-    product.map((value,index)=>{
-        // Khởi tạo thẻ tr chứa thông tin sản phẩm.
+    // ------Duyệt mảng sản phẩm để đổ vào tbody.-----------------
+    //console.log(products); //=>trả về mảng ->duyệt mảng
+    // ----Các cách duyệt mảng------
+        //  - For, forEach, map
+    /* products.map((value,index)=>{
+         // khởi tạo thẻ tr
         const tr = document.createElement('tr');
-        // gán dữ liệu sản phẩm vào tr.
-        tr.innerHTML = `
+        // --Đổ DL sản phẩm vào tr
+        tr.innerHTML=`
             <td>${index+1}</td>
-            <td><img width="60" src="${value.image}"></td>
+            <td><img width="60" src="${value.image}"/></td>
             <td>${value.name}</td>
             <td>${value.cat_id}</td>
             <td>${value.price}</td>
-            <td><a href="/client/edit-product.html?id=${value.id}" class="btn btn-primary">Sửa</a> <a class="btn btn-danger" onclick = "delProduct('${value.id}')">Xóa</a></td>
+            <td><button>Sửa</button><button>Xóa</button></td>
         `;
-        // Đổ tr và tbody
-        tbody.appendChild(tr);        
-    });
-    // console.log(location.search);
+        //Đổ dữ liệu tr vào tbody
+        tbody.appendChild(tr);
+    })*/
+    products.map(({id,name,image,cat_id,price},index)=>{
+        // khởi tạo thẻ tr
+        const tr = document.createElement('tr');
+        // --Đổ DL sản phẩm vào tr
+        tr.innerHTML=`
+            <td>${index+1}</td>
+            <td><img width="60" src="${image}"/></td>
+            <td>${name}</td>
+            <td>${cat_id}</td>
+            <td>${price}</td>
+            <td><a href="/client/edit.html?id=${id}" class="btn btn-primary">Sửa</a><button class="btn btn-danger" onclick="delProduct('${id}')">Xóa</button></td>
+        `;
+        //Đổ dữ liệu tr vào tbody
+        tbody.appendChild(tr);
+    })
 }
-// Viết hàm xóa sản phẩm
-const  delProduct=(pid)=>{
-    // Để xóa thì chúng ta gọi API json server với phương thức delete.
-    fetch(`http://localhost:3000/products/${pid}`,{method:'DELETE'});
-    // Xóa xong thì chạy lại hàm reder
-    renderProduct();
+RenderProduct();
+const delProduct =(pid)=>{
+    fetch(`http://localhost:3000/products/${pid}`,{method: 'DELETE'});
+    // RenderProduct();
 }
-renderProduct();
-
-
-// Có 2 cách để sửa sản phẩm.
-//  C1: Sửa bằng cách đổ dữ liệu vào 1 form ngay trên file html 
-    //    - Ưu điểm: Tiện, không cần phải tạo file mới.
-    //    Nhược điểm: Thao tác nhiều + xử lý css
-//  C2: Làm 1 file html riêng để sửa và cập nhật
-        //  - Ưu điểm: dễ làm.
-        //  nhược: phải tạo thêm file nữa để xử lý.
